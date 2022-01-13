@@ -22,10 +22,22 @@ import {Link} from 'react-router-dom'
 // `;
 
 
-export default function ArticlesList({article}) {
+export default function ArticlesList({ article, onDeleteArticle }) {
   return (
-    <Paper elevation={0} sx={{ padding: 4, textAlign: "left" }}>
-      <Link to="/"><Button sx={{margin: '32px 0'}} startIcon={<ArrowBackIcon />}>To all articles</Button></Link>
+    <Paper elevation={0} sx={{ padding: 4, textAlign: "left", margin: '0 auto', width:  600 }}>
+      <Link to="/">
+        <Button sx={{ margin: "32px 0" }} startIcon={<ArrowBackIcon />}>
+          To all articles
+        </Button>
+      </Link>
+      <Button
+        sx={{ margin: "32px 0", marginLeft: 4 }}
+        onClick={() => onDeleteArticle(article._id)}
+        variant="outlined"
+        color="error"
+      >
+        Delete article
+      </Button>
       <Typography variant="h5" component="h5">
         {article.title}
       </Typography>

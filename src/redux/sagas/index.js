@@ -1,16 +1,40 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import {client} from '../../client'
+import { initArticles } from "../actions";
 
 import {history} from '../../history'
 
-// Worker saga will be fired on USER_FETCH_REQUESTED actions
-function* submitArticle(action) {
-  history.push(`/article/${action.payload.slug}`);
+const ArticlesApi = {
+  getArticles: () => client.get("/articles"),
+  createArticle: (article) => client.post("/article", article),
+  deleteArticle: (articleId) => client.delete(`/article/${articleId}`),
+};
+
+function* fetchAllArticles() {
+  const {data: articles} = yield call(ArticlesApi.getArticles);
+
+  yield put(initArticles(articles));
 }
 
-// Starts fetchUser on each dispatched USER_FETCH_REQUESTED action
-// Allows concurrent fetches of user
+function* submitArticle(action) {
+  const article = action.payload;
+
+  yield call(ArticlesApi.createArticle, article);
+  history.push(`/article/${article.slug}`);
+}
+
+function* deleteArticle(action) {
+  const articleId = action.payload;
+
+  yield call(ArticlesApi.deleteArticle, articleId);
+  history.push(`/`);
+}
+
 function* saga() {
-  yield takeEvery("todos/add", submitArticle);
+  yield fetchAllArticles()
+
+  yield takeEvery("articles/add", submitArticle);
+  yield takeEvery("articles/delete", deleteArticle);
 }
 
 export default saga

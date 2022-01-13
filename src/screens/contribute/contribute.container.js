@@ -11,9 +11,12 @@ export default function ContributeContainer() {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
 
-  const handelAddArticle = (article) => {
-    dispatch(addArticle(article))
+  const handleAddArticle = (article) => {
+    dispatch(addArticle({
+      ...article,
+      author: user.name
+    }))
   }
 
-  return <Contribute user={user} onAddArticle={handelAddArticle} />;
+  return <Contribute user={user} onAddArticle={handleAddArticle} />;
 }

@@ -1,8 +1,11 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
-import articlesData from "../../data/articles.json";
 
-import { addArticle } from "../actions";
+import { addArticle, deleteArticle, initArticles } from "../actions";
 
-export default createReducer(articlesData, (builder) => {
+export default createReducer([], (builder) => {
+  builder.addCase(initArticles, (state, action) => action.payload);
   builder.addCase(addArticle, (state, action) => [...state, action.payload]);
+  builder.addCase(deleteArticle, (state, action) =>
+    state.filter((article) => article._id !== action.payload)
+  );
 });

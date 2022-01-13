@@ -1,7 +1,7 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
 const initialUser = {
-  name: 'Alex Buzin'
+  name: 'Sample User'
 }
 
 export default createReducer(initialUser, (builder) => {

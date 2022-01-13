@@ -57,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Header() {
+export default function Header({ onSearch }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -178,7 +178,7 @@ export default function Header() {
               KPI_Wiki
             </Typography>
           </Link>
-          <Search>
+          <Search onChange={e => onSearch(e.target.value)}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

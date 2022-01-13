@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 
+import {useState} from 'react'
+
 import Header from "./components/Header";
 
 import { Router } from "react-router-dom";
@@ -16,15 +18,19 @@ import store from './redux/store'
 import { history } from "./history";
 
 function App() {
+  const [searchPhrase, setSearchPhrase] = useState('')
+
   return (
     <Provider store={store}>
       <Router history={history}>
         <div className="App">
-          <Header />
+          <Header onSearch={setSearchPhrase} />
           <Switch>
             <Route path="/article/:slug" component={Article} />
             <Route path="/contribute" component={Contribute} />
-            <Route component={ArticlesList} />
+            <Route>
+              <ArticlesList searchPhrase={searchPhrase} />
+            </Route>
           </Switch>
         </div>
       </Router>
